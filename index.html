@@ -1,0 +1,461 @@
+!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Rincón del Bachiller - Librería</title>
+    <style>
+        /* Paleta de colores oficial del cuaderno */
+        :root {
+            --verde-oscuro: #1A3E2B;
+            --verde-principal: #2C5E43;
+            --verde-claro: #A3D9C9;
+            --crema: #FBF9F3;
+            --madera: #4A2828;
+            --rosa: #EE91E6;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: var(--crema);
+            color: var(--madera);
+        }
+
+        /* --- ENCABEZADO --- */
+        header {
+            background-color: var(--verde-oscuro);
+            color: var(--crema);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 130px;
+            border-bottom: 3px solid var(--rosa);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Contenedor del logotipo oficial */
+        .logo-container {
+            width: 95px;
+            height: 95px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .logo-colbach {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .header-info h1 {
+            margin: 0;
+            font-size: 26px;
+            color: var(--verde-claro);
+        }
+
+        .marquee-box {
+            background-color: var(--verde-principal);
+            color: var(--rosa);
+            padding: 4px;
+            font-weight: bold;
+            font-size: 13px;
+            border-radius: 4px;
+            margin-top: 6px;
+            width: 380px;
+        }
+
+        .team-box {
+            background-color: var(--madera);
+            border: 1px solid var(--verde-claro);
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 11px;
+            max-width: 380px;
+            line-height: 1.4;
+            color: var(--crema);
+        }
+
+        .team-box b {
+            color: var(--rosa);
+            display: block;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            font-size: 12px;
+        }
+
+        /* --- ESTRUCTURA PRINCIPAL DE LA PÁGINA --- */
+        .main-container {
+            display: flex;
+            height: calc(100% - 130px);
+        }
+
+        /* --- MENÚ IZQUIERDO --- */
+        nav {
+            width: 260px;
+            background-color: var(--verde-claro);
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 2px solid var(--verde-principal);
+        }
+
+        nav h3 {
+            color: var(--verde-oscuro);
+            text-align: center;
+            margin-top: 0;
+            border-bottom: 2px solid var(--verde-principal);
+            padding-bottom: 8px;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 0 0;
+        }
+
+        nav ul li {
+            margin-bottom: 12px;
+        }
+
+        .nav-btn {
+            display: block;
+            color: var(--madera);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 12px 15px;
+            background-color: var(--crema);
+            border-left: 5px solid var(--verde-principal);
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--verde-principal);
+            color: var(--crema);
+            border-left: 5px solid var(--rosa);
+            transform: translateX(4px);
+        }
+
+        .nav-footer {
+            text-align: center;
+            border-top: 1px solid var(--verde-principal);
+            padding-top: 15px;
+            font-size: 12px;
+            color: var(--verde-oscuro);
+            font-weight: bold;
+        }
+
+        /* --- CONTENEDOR DE CONTENIDO (Cuerpo de las secciones) --- */
+        .content-area {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        .section-panel {
+            display: none; /* Oculta las secciones por defecto */
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+        .section-panel.active {
+            display: block; /* Muestra solo la sección activa */
+        }
+
+        /* Estilos de elementos dentro de los contenidos */
+        h2 {
+            margin-top: 0;
+            color: var(--verde-oscuro);
+            padding-bottom: 10px;
+        }
+
+        .line-rosa { border-bottom: 3px solid var(--rosa); }
+        .line-verde { border-bottom: 3px solid var(--verde-principal); }
+
+        h3 {
+            color: var(--verde-principal);
+            margin-top: 25px;
+        }
+
+        .flex-container {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .main-img {
+            width: 40%;
+            border-radius: 8px;
+            border: 2px solid var(--verde-principal);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .text-side {
+            width: 60%;
+            line-height: 1.6;
+        }
+
+        /* Estilos de Tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        /* Tabla Estilo Catálogo */
+        .table-catalog th {
+            background-color: var(--verde-principal);
+            color: var(--crema);
+        }
+        .table-catalog tr:nth-child(even) {
+            background-color: #F9F7F1;
+        }
+        .table-catalog td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Tabla Estilo Precios con bordes */
+        .table-prices th {
+            background-color: var(--verde-oscuro);
+            color: #ffffff;
+        }
+        .table-prices td, .table-prices th {
+            border: 1px solid var(--verde-claro);
+        }
+
+        .thumb-img {
+            width: 60px;
+            height: 75px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid var(--madera);
+        }
+
+        .news-box {
+            border-left: 6px solid var(--verde-claro);
+            background-color: #F9F7F1;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .news-img {
+            width: 140px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--verde-claro);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. SECCIÓN SUPERIOR: ENCABEZADO -->
+    <header>
+        <div class="header-left">
+            <!-- Contenedor con la imagen local del Logotipo oficial -->
+            <div class="logo-container">
+                <img class="logo-colbach" src="logo_colegio_de_bachilleres.gif" alt="Logotipo Colegio de Bachilleres">
+            </div>
+            
+            <div class="header-info">
+                <h1>📚 El Rincón del Bachiller</h1>
+                <div class="marquee-box">
+                    <marquee behavior="scroll" direction="left" scrollamount="4">
+                        ¡Bienvenidos al portal oficial de lectura del Plantel 17 Huayamilpas! Proyecto de Informática.
+                    </marquee>
+                </div>
+            </div>
+        </div>
+        
+        <div class="team-box">
+            <b>Equipo de Trabajo:</b>
+            1. Acosta M. Marion Oneli <br>
+            2. Bravo M. Roberto <br>
+            3. Medina S. Vania Aidee <br>
+            4. Piñón G. Vania <br>
+            5. Romero A. Vania Aldain
+        </div>
+    </header>
+
+    <!-- CUERPO PRINCIPAL -->
+    <div class="main-container">
+        
+        <!-- 2. SECCIÓN IZQUIERDA: MENÚ DE NAVEGACIÓN -->
+        <nav>
+            <div>
+                <h3>Menú de Librería</h3>
+                <ul>
+                    <li><div class="nav-btn active" onclick="cambiarSeccion('presentacion', this)">🏠 Presentación</div></li>
+                    <li><div class="nav-btn" onclick="cambiarSeccion('soylobo', this)">📖 Catálogo "Soy LOBO"</div></li>
+                    <li><div class="nav-btn" onclick="cambiarSeccion('noticia', this)">📰 Noticias y Precios</div></li>
+                </ul>
+            </div>
+            <div class="nav-footer">
+                Diseño 2D para Web<br>Sexto Semestre - Corte III
+            </div>
+        </nav>
+
+        <!-- 3. SECCIÓN DERECHA: CONTENIDOS INTERACTIVOS -->
+        <div class="content-area">
+
+            <!-- PÁGINA 1: PRESENTACIÓN -->
+            <div id="presentacion" class="section-panel active">
+                <h2 class="line-rosa">Bienvenidos a El Rincón del Bachiller</h2>
+                <div class="flex-container">
+                    <div class="text-side">
+                        <p>
+                            Somos un proyecto editorial digital y biblioteca interactiva creado por y para la comunidad estudiantil del <b>Plantel 17 Huayamilpas del Colegio de Bachilleres</b>. Nuestro objetivo principal es facilitar el acceso a la literatura de una forma atractiva y moderna.
+                        </p>
+                        <p>
+                            <b>Propósito de la Página:</b> Acercar la cultura, fomentar el hábito de la lectura y proveer un catálogo organizado que sirva de apoyo directo a las asignaturas de nuestro plantel.
+                        </p>
+                    </div>
+                    <!-- Imagen estética de biblioteca de alta calidad -->
+                    <img class="main-img" src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=600&q=80" alt="Biblioteca Interactiva El Rincón del Bachiller">
+                </div>
+                <h3>Nuestra Misión</h3>
+                <p>
+                    Ofrecer alternativas de lectura accesibles mediante tecnologías digitales, unificando el catálogo físico disponible en la biblioteca de la escuela con formatos interactivos cómodos de estudiar.
+                </p>
+            </div>
+
+            <!-- PÁGINA 2: SOY LOBO (CATÁLOGO) -->
+            <div id="soylobo" class="section-panel">
+                <h2 class="line-verde">🐺 Identidad "Soy LOBO" y Catálogo</h2>
+                <p>
+                    Sentirse orgulloso de pertenecer al Colegio de Bachilleres implica dar el máximo potencial académico. En esta sección te mostramos los servicios literarios coordinados con la infraestructura de nuestro <b>Plantel 17</b>:
+                </p>
+
+                <table class="table-catalog">
+                    <thead>
+                        <tr>
+                            <th>Vista</th>
+                            <th>Producto / Libro</th>
+                            <th>Especificación y Contenido</th>
+                            <th>Formato</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td align="center"><img class="thumb-img" src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=100&q=80" alt="Guías"></td>
+                            <td><b>📘 Guías de Estudio Oficiales</b></td>
+                            <td>Compendios resueltos de Matemáticas, Física y Literatura del sexto semestre.</td>
+                            <td>Digital e Impreso</td>
+                        </tr>
+                        <tr>
+                            <td align="center"><img class="thumb-img" src="https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=100&q=80" alt="Clásicos"></td>
+                            <td><b>📙 Clásicos de la Literatura</b></td>
+                            <td>Novelas requeridas para los módulos de lectura del Colegio de Bachilleres.</td>
+                            <td>Préstamo Físico</td>
+                        </tr>
+                        <tr>
+                            <td align="center"><img class="thumb-img" src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=100&q=80" alt="Antologías"></td>
+                            <td><b>📖 Antologías Temáticas</b></td>
+                            <td>Recopilaciones de poesía, cuento corto y ensayos académicos selectos.</td>
+                            <td>Físico en Cubículos</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PÁGINA 3: NOTICIAS Y PRECIOS -->
+            <div id="noticia" class="section-panel">
+                <h2 class="line-rosa">📰 Noticias del Bachito y Promociones Especiales</h2>
+                
+                <div class="news-box">
+                    <div class="flex-container" style="margin-top:0;">
+                        <div style="flex: 1;">
+                            <h3 style="margin-top:0; color:var(--verde-principal);">✨ Gran Éxito en la Campaña de Donación de Libros en el Plantel 17</h3>
+                            <p style="margin-bottom: 0; font-size: 14px;">
+                                Recientemente se llevó a cabo una demostración cultural en la explanada de nuestro plantel <b>Huayamilpas</b>. Gracias al entusiasmo de los alumnos se recolectaron más de 150 obras literarias. Este acontecimiento expandirá las consultas.
+                            </p>
+                        </div>
+                        <img class="news-img" src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=200&q=80" alt="Feria Escolar">
+                    </div>
+                </div>
+
+                <h3>🏷️ Promociones Especiales y Cuotas de Recuperación</h3>
+                <table class="table-prices">
+                    <thead>
+                        <tr>
+                            <th>Paquete / Servicio</th>
+                            <th>Promoción e Incentivo Escolar</th>
+                            <th>Precio Estudiante</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><b>Acceso Digital General</b></td>
+                            <td>Descarga libre de guías e infografías académicas.</td>
+                            <td><font color="#2C5E43"><b>Gratis</b></font></td>
+                        </tr>
+                        <tr>
+                            <td><b>Paquete Credencial Premium</b></td>
+                            <td>Separador físico con diseño de madera y derecho a préstamo extendido.</td>
+                            <td><b>$25.00 MXN</b></td>
+                        </tr>
+                        <tr>
+                            <td><b>Kit de Lectura Completo</b></td>
+                            <td>Antología semestral impresa + un block de notas decorativo color rosa.</td>
+                            <td><font color="#1A3E2B"><b>$45.00 MXN</b></font></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT INTERACTIVO: Realiza el cambio de páginas -->
+    <script>
+        function cambiarSeccion(idSeccion, botonActivo) {
+            // Ocultar todas las secciones
+            const secciones = document.querySelectorAll('.section-panel');
+            secciones.forEach(sec => sec.classList.remove('active'));
+
+            // Quitar clase activa a todos los botones del menú
+            const botones = document.querySelectorAll('.nav-btn');
+            botones.forEach(btn => btn.classList.remove('active'));
+
+            // Mostrar la sección seleccionada y activar su botón correspondiente
+            document.getElementById(idSeccion).classList.add('active');
+            botonActivo.classList.add('active');
+        }
+    </script>
+</body>
+</html>
